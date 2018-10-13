@@ -1,6 +1,7 @@
 package com.home;
 
 import java.util.concurrent.PriorityBlockingQueue;
+import java.util.concurrent.TimeUnit;
 
 public class Worker extends Thread {
     private PriorityBlockingQueue<Message> queue;
@@ -17,6 +18,7 @@ public class Worker extends Thread {
             while (true) {
                 Message message = this.queue.take();
                 System.out.print(Thread.currentThread().getId() + SEPARATOR + message);
+                sleep(TimeUnit.SECONDS.toMillis(1));
             }
         } catch (InterruptedException e) {
             System.out.print(e.getMessage());

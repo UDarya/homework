@@ -8,10 +8,10 @@ public class Main {
         int workerNum = 3;
         int msgLength = 10;
         int maxPriority = 10;
-        int delay = 1000;
-        int duration = 1000;
+        int delay = 100000;
+        int duration_sec = 1;
 
-        MessageGenerator generator = new MessageGenerator(msgLength, maxPriority, duration, delay);
+        MessageGenerator generator = new MessageGenerator(msgLength, maxPriority, duration_sec, delay);
         QueueWriter writer = QueueWriter.getInstance();
         QueueRegistrator registrator = new QueueRegistrator();
 
