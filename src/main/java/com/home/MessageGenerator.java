@@ -1,5 +1,6 @@
 package com.home;
 
+import java.util.ArrayList;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
@@ -25,12 +26,17 @@ public class MessageGenerator extends Thread {
     @Override
     public void run() {
         long start;
+        ArrayList<Message> batch;
         while (true) {
             start = System.currentTimeMillis();
+            batch = new ArrayList<>();
             while (System.currentTimeMillis() - start <= TimeUnit.SECONDS.toMillis(duration)) {
                 Message msg = generate();
-                queueWriter.write(msg);
+                batch.add(msg);
             }
+
+            queueWriter.write(batch);
+
             try {
                 sleep(delay);
             } catch (InterruptedException e) {
@@ -41,15 +47,18 @@ public class MessageGenerator extends Thread {
     }
 
     Message generate() {
+        int priority = random.nextInt(maxPriority) + 1;
+
+        return new Message(generateRandomString(), priority);
+    }
+
+    private String generateRandomString() {
         StringBuilder builder = new StringBuilder();
         int length = msgLength;
         while (length-- != 0) {
             int character = (int) (Math.random() * ALPHA_STRING.length());
             builder.append(ALPHA_STRING.charAt(character));
         }
-
-        int priority = random.nextInt(maxPriority) + 1;
-
-        return new Message(builder.toString(), priority);
+        return builder.toString();
     }
 }
