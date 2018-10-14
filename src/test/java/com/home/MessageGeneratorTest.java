@@ -12,18 +12,10 @@ public class MessageGeneratorTest {
         int delay = 10;
 
         MessageGenerator generator = new MessageGenerator(msgLength, maxPriority, duration, delay);
-        Message message = generator.generate();
+        Message message = generator.generateMessage();
 
         Assert.assertNotNull(message);
         Assert.assertNotNull(message.getMessage());
         Assert.assertEquals(msgLength, message.getMessage().length());
-
-        generator = new MessageGenerator(0, maxPriority, duration, delay);
-        message = generator.generate();
-
-        Assert.assertNotNull(message);
-        Assert.assertNotNull(message.getMessage());
-        Assert.assertEquals(0, message.getMessage().length());
     }
-
 }

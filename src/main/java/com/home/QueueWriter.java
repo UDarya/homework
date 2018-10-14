@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Queue;
 
 public class QueueWriter {
-    private ArrayList<Queue<Message>> queueList = new ArrayList<>();
+    private List<Queue<Message>> queueList = new ArrayList<>();
 
     public void registrateQueue(Queue queue) {
         queueList.add(queue);

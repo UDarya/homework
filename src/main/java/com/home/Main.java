@@ -10,17 +10,20 @@ public class Main {
         int maxPriority = 10;
         int delay = 100000;
         int duration_sec = 1;
+        int processDuration = 1;
 
         MessageGenerator generator = new MessageGenerator(msgLength, maxPriority, duration_sec, delay);
         QueueWriter writer = QueueWriter.getInstance();
         QueueRegistrator registrator = new QueueRegistrator();
 
-        ArrayList<Worker> workers = new ArrayList<>();
+        ArrayList<Thread> workers = new ArrayList<>();
         for (int i = 0; i < workerNum; i++) {
-            workers.add(new Worker(registrator.registrate(writer)));
+            Worker worker = new Worker(registrator.registrate(writer), processDuration);
+            workers.add(new Thread(worker));
         }
 
-        generator.start();
+        Thread generatoThread = new Thread(generator);
+        generatoThread.start();
 
         workers.forEach(Thread::start);
     }
